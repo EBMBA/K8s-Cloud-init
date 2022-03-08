@@ -9,7 +9,7 @@
    BorderBrush="DodgerBlue"
    BorderThickness="1"
    GlowBrush="{DynamicResource AccentColorBrush}"
-   Title="DoubleM DeployTool"
+   Title="EBMBA PSCITool"
    Topmost="True"
    WindowStartupLocation="CenterScreen"
    WindowStyle="None">
@@ -85,11 +85,25 @@
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
                               <Label Content="FQDN : " FontWeight="Bold"/>
                               <TextBox
-                                 Margin="-4 20 5 0"
+                                 Margin="0 2 5 0"
                                  Name="FQDN"
                                  Width="130"
                                  >
                               </TextBox>
+                           </StackPanel>
+                           <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                              <iconPacks:PackIconCodicons Kind="ServerEnvironment"
+                                 Width="24"
+                                 Height="24"
+                                 Margin="0 0 5 0"
+                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
+                              <Label Content="Type : " FontWeight="Bold"/>
+                              <ComboBox
+                                 Margin="6 2 5 0"
+                                 Name="Type"
+                                 Width="130"
+                                 >
+                              </ComboBox>
                            </StackPanel>
                         </StackPanel>
                         <StackPanel Name="S_Button" Margin="10 0 0 0" Orientation="Vertical">
@@ -146,7 +160,7 @@
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
                               <Label Content="CR : " FontWeight="Bold"/>
                               <ComboBox
-                                 Margin="88 0 5 0"
+                                 Margin="46 0 5 0"
                                  Name="CR"
                                  Width="130"
                                  >
@@ -160,7 +174,7 @@
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
                               <Label Content="Version : " FontWeight="Bold"/>
                               <ComboBox
-                                 Margin="88 0 5 0"
+                                 Margin="20 0 5 0"
                                  Name="CRVersion"
                                  Width="130"
                                  >
@@ -199,13 +213,13 @@
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
                               <Label Content="Versions :" FontWeight="Bold" Margin="-2 20 5 0"/>
                               <ComboBox
-                                 Margin="88 0 5 0"
+                                 Margin="45 20 5 0"
                                  Name="KVersion"
                                  Width="130"
                                  >
                               </ComboBox>
                            </StackPanel>
-                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal">
+                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal" Name="SCNI">
                               <iconPacks:PackIconUnicons Kind="Channel" 
                                  Width="24"
                                  Height="24"
@@ -213,13 +227,13 @@
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
                               <Label Content="CNI :" FontWeight="Bold" Margin="-2 20 5 0"/>
                               <ComboBox
-                                 Margin="88 0 5 0"
+                                 Margin="74 20 5 0"
                                  Name="CNI"
                                  Width="130"
                                  >
                               </ComboBox>
                            </StackPanel>
-                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal">
+                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal" Name="SPodNetwork">
                               <iconPacks:PackIconUnicons Kind="Channel" 
                                  Width="24"
                                  Height="24"
@@ -227,14 +241,14 @@
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
                               <Label Content="Pod Network :" FontWeight="Bold" Margin="-2 20 5 0"/>
                               <TextBox
-                                 Margin="88 0 5 0"
+                                 Margin="20 20 5 0"
                                  Name="PodNetwork"
                                  Width="130"
                                  Text="192.168.0.0"
                                  >
                               </TextBox>
                            </StackPanel>
-                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal">
+                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal" Name="SNetworkMask">
                               <iconPacks:PackIconUnicons Kind="Channel" 
                                  Width="24"
                                  Height="24"
@@ -242,7 +256,7 @@
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
                               <Label Content="Network Mask:" FontWeight="Bold" Margin="-2 20 5 0"/>
                               <TextBox
-                                 Margin="88 0 5 0"
+                                 Margin="15 20 5 0"
                                  Name="NetworkMask"
                                  Width="130"
                                  Text="24"
@@ -275,7 +289,7 @@
                         FontWeight="Thin"/>
                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
-                           <StackPanel Orientation="Vertical">
+                           <StackPanel Orientation="Vertical" Name="SHelm3">
                               <Label Content="Helm3 : " Margin="4 0 5 0" FontWeight="Bold"/>
                               <ComboBox
                                  Margin="4 0 5 0"
@@ -283,7 +297,7 @@
                                  Width="100">
                               </ComboBox>
                            </StackPanel>
-                           <StackPanel Orientation="Vertical">
+                           <StackPanel Orientation="Vertical" Name="SCertManager">
                               <Label Content="Cert-Manager : " Margin="4 0 5 0" FontWeight="Bold"/>
                               <ComboBox
                                  Margin="4 0 5 0"
@@ -291,7 +305,7 @@
                                  Width="100">
                               </ComboBox>
                            </StackPanel>
-                           <StackPanel Orientation="Vertical">
+                           <StackPanel Orientation="Vertical" Name="SOpenssl">
                               <Label Content="Openssl : " Margin="4 0 5 0" FontWeight="Bold"/>
                               <ComboBox
                                  Margin="4 0 5 0"

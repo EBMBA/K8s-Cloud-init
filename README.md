@@ -1,5 +1,12 @@
-# K8s-Cloud-init
-Cloud init files to deploy k8s masters and nodes with kubeadm. 
+# PowerShell Cloud-Init Tool
+Generate your cloud-init file personilazed to deploy k8s masters and nodes with kubeadm. 
+
+# Prerequisite
+
+Install [powershell-yaml](https://github.com/cloudbase/powershell-yaml),  simply run the following command :
+```PowerShell
+Install-Module powershell-yaml
+```
 
 # Example with multipass
 

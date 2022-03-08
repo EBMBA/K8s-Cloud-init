@@ -41,107 +41,38 @@
                   <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
                      <Label
                         Margin="40 0 0 50"
-                        Content="Ajouter un ordinateur à déployer"
+                        Content="Configure a new Cloud-Init files"
                         FontSize="25"
                         FontWeight="Thin"/>
                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
                            <StackPanel Orientation="Horizontal">
-                              <iconPacks:PackIconVaadinIcons Kind="Building"
+                              <iconPacks:PackIconOcticons Kind="DiffRenamed"
                                  Width="24"
                                  Height="24"
                                  Margin="0 0 5 0"
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                              <Label Content="Site : " FontWeight="Bold"/>
-                              <ComboBox
-                                 Margin="88 0 5 0"
-                                 Name="Site"
-                                 Width="130"
-                                 >
-                              </ComboBox>
-                           </StackPanel>
-                           <StackPanel Orientation="Horizontal">
-                              <iconPacks:PackIconCodicons Kind="ServerEnvironment" 
-                                 Width="24"
-                                 Height="24"
-                                 Margin="0 20 5 0"
-                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/> 
-                              <Label Content="Type de machine : " FontWeight="Bold" Margin="0 20 0 0"/>
-                              <ComboBox
-                                 Margin="15 20 5 0"
-                                 Name="Machine"
-                                 Width="130"
-                                 >
-                              </ComboBox>
-                           </StackPanel>
-                           <StackPanel Orientation="Horizontal" Visibility="Collapsed" Name="ServiceView">
-                              <iconPacks:PackIconPicolIcons Kind="BadgeInformation" 
-                                 Width="24"
-                                 Height="24"
-                                 Margin="0 20 5 0"
-                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                              <Label Content="Service : " FontWeight="Bold" Margin="0 20 0 0"/>
-                              <ComboBox
-                                 Margin="70 20 5 0"
-                                 Name="Service"
-                                 Width="130"
-                                 >
-                              </ComboBox>
-                           </StackPanel>
-                           <StackPanel Orientation="Horizontal">
-                              <iconPacks:PackIconPicolIcons Kind="ComputerAdd" 
-                                 Width="24"
-                                 Height="24"
-                                 Margin="0 20 5 0"
-                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                                 />
-                              <Label Content="Nom de l'ordinateur :" FontWeight="Bold" Margin="-2 20 5 0"/>
+                              <Label Content="FQDN : " FontWeight="Bold"/>
                               <TextBox
-                                 Margin="-4 20 5 0"
-                                 Name="ComputerName"
+                                 Margin="0 2 5 0"
+                                 Name="FQDN"
                                  Width="130"
                                  >
                               </TextBox>
                            </StackPanel>
-                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal">
-                              <iconPacks:PackIconIonicons Kind="AtiOS" 
+                           <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                              <iconPacks:PackIconCodicons Kind="ServerEnvironment"
                                  Width="24"
                                  Height="24"
                                  Margin="0 0 5 0"
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                              <Label Content="Adresse MAC :" FontWeight="Bold"/>
-                              <TextBox
-                                 Name="MacAddress"
+                              <Label Content="Type : " FontWeight="Bold"/>
+                              <ComboBox
+                                 Margin="6 2 5 0"
+                                 Name="Type"
                                  Width="130"
-                                 Margin="39 0 0 0"
                                  >
-                              </TextBox>
-                           </StackPanel>
-                           <StackPanel
-                              Name="S_Path"
-                              Margin="0 20 0 0"
-                              Orientation="Vertical"
-                              Visibility="Visible">
-                              <DataGrid
-                                 Name="TaskSequences"
-                                 Width="380"
-                                 Height="270"
-                                 Margin="2,10,2,2"
-                                 BorderThickness="1"
-                                 ItemsSource="{Binding}"
-                                 SelectionMode="Single" 
-                                 >
-                                 <DataGrid.Columns>
-                                    <DataGridCheckBoxColumn
-                                       Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"
-                                       EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                                       ElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                                       Header="IsSelected"
-                                       Width="88"/>
-                                    <DataGridTextColumn Binding="{Binding ID}" Header="ID" Width="88"/>
-                                    <DataGridTextColumn Binding="{Binding Nom}" Header="Nom" Width="204"/>
-                                 </DataGrid.Columns>
-                              </DataGrid>
+                              </ComboBox>
                            </StackPanel>
                         </StackPanel>
                         <StackPanel Name="S_Button" Margin="10 0 0 0" Orientation="Vertical">
@@ -150,20 +81,20 @@
                               Width="60"
                               Height="30"
                               Margin="5 0 0 0"
-                              Content="Créer"
+                              Content="Create"
                               IsEnabled="False"/>
                            <Button
-                              Name="ExitD"
+                              Name="ExitIP"
                               Width="60"
                               Height="30"
                               Margin="5 15 0 0"
-                              Content="Quitter"/>
+                              Content="Close"/>
                            <Button
-                              Name="Generer"
+                              Name="Generate"
                               Width="60"
                               Height="30"
                               Margin="5 15 0 0"
-                              Content="Générer"/>       
+                              Content="Generate"/>       
                         </StackPanel>
                      </StackPanel>
                   </StackPanel> 
@@ -173,11 +104,11 @@
                   <TabItem.HeaderTemplate>
                      <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                           <iconPacks:PackIconBootstrapIcons
+                           <iconPacks:PackIconFileIcons
                               Width="24"
                               Height="24"
                               Margin="5 17 0 0 "
-                              Kind="" />
+                              Kind="Devcontainer" />
                            <Label Margin="5 5 0 0" Content="Container Runtime" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
                         </StackPanel>
                      </DataTemplate>
@@ -185,109 +116,128 @@
                   <StackPanel HorizontalAlignment="center" VerticalAlignment="Top" Orientation="Vertical">
                      <Label
                         Margin="50 0 0 50"
-                        Content="Recherche de materiel dans le domaine"
+                        Content="Choose your Container Runtime"
                         FontSize="25"
                         FontWeight="Thin">
                      </Label>
-                     <DataGrid
-                        Name="Search"
-                        Width="500"
-                        Height="450"
-                        Margin="2,2,2,2"
-                        BorderThickness="1"
-                        ColumnWidth="150"
-                        ItemsSource="{Binding}"
-                        SelectionMode="Single">
-                        <DataGrid.Columns>
-                           <DataGridTextColumn Binding="{Binding NameComputer}" Header="Name"/>
-                           <DataGridTextColumn Binding="{Binding WhenCreated}" Header="When Created"/>
-                           <DataGridTextColumn Binding="{Binding IPV4Address}" Header="IPV4 Address"/>
-                        </DataGrid.Columns>
-                     </DataGrid>
-                     <TextBox
-                        Name="FilterTextBox"
-                        Width="500"
-                        Height="26"
-                        HorizontalAlignment="Left"
-                        Margin="2 10 0 0"
-                        VerticalAlignment="Top"
-                        Controls:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(Controls:TextBoxHelper.HasText), Mode=OneWay}"
-                        Controls:TextBoxHelper.Watermark="Filter the Title column"
-                        Text=""
-                        TextWrapping="Wrap"/>
+                      <StackPanel Orientation="Vertical">
+                           <StackPanel Orientation="Horizontal">
+                              <iconPacks:PackIconOcticons Kind="Gear"
+                                 Width="24"
+                                 Height="24"
+                                 Margin="0 0 5 0"
+                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
+                              <Label Content="CR : " FontWeight="Bold"/>
+                              <ComboBox
+                                 Margin="46 0 5 0"
+                                 Name="CR"
+                                 Width="130"
+                                 >
+                              </ComboBox>
+                           </StackPanel>
+                           <StackPanel Orientation="Horizontal">
+                              <iconPacks:PackIconOcticons Kind="Versions"
+                                 Width="24"
+                                 Height="24"
+                                 Margin="0 0 5 0"
+                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
+                              <Label Content="Version : " FontWeight="Bold"/>
+                              <ComboBox
+                                 Margin="20 0 5 0"
+                                 Name="CRVersion"
+                                 Width="130"
+                                 >
+                              </ComboBox>
+                           </StackPanel>
+                        </StackPanel>
                   </StackPanel>
                </TabItem>
                      
-               <TabItem Name="Onglet_Identification">
+               <TabItem Name="Tab_Kubernetes">
                   <TabItem.HeaderTemplate>
                      <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                           <iconPacks:PackIconMaterial
+                           <iconPacks:PackIconFileIcons
                               Width="24"
                               Height="24"
                               Margin="5 17 0 0 "
-                              Kind="AccountKey" />
-                           <Label Margin="5 5 0 0" Content="Identification" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+                              Kind="Kubernetes" />
+                           <Label Margin="5 5 0 0" Content="Kubernetes" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
                         </StackPanel>
                      </DataTemplate>
                   </TabItem.HeaderTemplate>
                   <StackPanel HorizontalAlignment="Center" VerticalAlignment="top" Orientation="Vertical">
                      <Label
                         Margin="20 0 0 40"
-                        Content="Identifiez-vous avec le compte de jonction au domaine"
+                        Content="Install kubeadm, kubelet and kubectl"
                         FontSize="25"
                         FontWeight="Thin"/>
                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
                            <StackPanel Orientation="Horizontal">
-                              <iconPacks:PackIconMaterial Kind="Account" 
+                              <iconPacks:PackIconOcticons Kind="Versions" 
                                  Width="24"
                                  Height="24"
                                  Margin="0 20 5 0"
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                              <Label Content="Utilisateur :" FontWeight="Bold" Margin="-2 20 5 0"/>
-                              <TextBox
-                                 Margin="50 20 5 0"
-                                 Name="MDTJD"
+                              <Label Content="Versions :" FontWeight="Bold" Margin="-2 20 5 0"/>
+                              <ComboBox
+                                 Margin="45 20 5 0"
+                                 Name="KVersion"
                                  Width="130"
+                                 >
+                              </ComboBox>
+                           </StackPanel>
+                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal" Name="SCNI">
+                              <iconPacks:PackIconUnicons Kind="Channel" 
+                                 Width="24"
+                                 Height="24"
+                                 Margin="0 20 5 0"
+                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
+                              <Label Content="CNI :" FontWeight="Bold" Margin="-2 20 5 0"/>
+                              <ComboBox
+                                 Margin="74 20 5 0"
+                                 Name="CNI"
+                                 Width="130"
+                                 >
+                              </ComboBox>
+                           </StackPanel>
+                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal" Name="SPodNetwork">
+                              <iconPacks:PackIconUnicons Kind="Channel" 
+                                 Width="24"
+                                 Height="24"
+                                 Margin="0 20 5 0"
+                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
+                              <Label Content="Pod Network :" FontWeight="Bold" Margin="-2 20 5 0"/>
+                              <TextBox
+                                 Margin="20 20 5 0"
+                                 Name="PodNetwork"
+                                 Width="130"
+                                 Text="192.168.0.0"
                                  >
                               </TextBox>
                            </StackPanel>
-                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal">
-                              <iconPacks:PackIconModern Kind="InterfacePassword" 
+                           <StackPanel Margin="0 20 0 0" Orientation="Horizontal" Name="SNetworkMask">
+                              <iconPacks:PackIconUnicons Kind="Channel" 
                                  Width="24"
                                  Height="24"
-                                 Margin="0 0 5 0"
+                                 Margin="0 20 5 0"
                                  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                              <Label Content="Mot de passe :" FontWeight="Bold"/>
-                              <PasswordBox
-                                 Name="Password"
+                              <Label Content="Network Mask:" FontWeight="Bold" Margin="-2 20 5 0"/>
+                              <TextBox
+                                 Margin="15 20 5 0"
+                                 Name="NetworkMask"
                                  Width="130"
-                                 Margin="37 0 0 0"
-                              >
-                              </PasswordBox>
+                                 Text="24"
+                                 >
+                              </TextBox>
                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel Name="S_Button_Identification" Margin="10 20 0 0" Orientation="Vertical">
-                           <Button
-                              Name="Connexion"
-                              Width="90"
-                              Height="30"
-                              Margin="5 0 0 0"
-                              Content="Connexion"
-                              IsEnabled="False"/>
-                           <Button
-                              Name="ExitI"
-                              Width="90"
-                              Height="30"
-                              Margin="5 15 0 0"
-                              Content="Quitter"/> 
                         </StackPanel>
                      </StackPanel>
                   </StackPanel>   
                </TabItem>
                      
-               <TabItem>
+               <TabItem Name="Tab_AdditionalSettings">
                   <TabItem.HeaderTemplate>
                      <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -296,73 +246,73 @@
                               Height="24"
                               Margin="5 17 0 0 "
                               Kind="Settings" />
-                           <Label Margin="5 5 0 0" Content="Paramètres" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+                           <Label Margin="5 5 0 0" Content="Additional Settings" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
                         </StackPanel>
                      </DataTemplate>
                   </TabItem.HeaderTemplate>     
                   <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
                      <Label
                         Margin="100 0 0 40"
-                        Content="Paramètres avancés"
+                        Content="Additional Settings"
                         FontSize="25"
                         FontWeight="Thin"/>
                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
-                           <StackPanel Orientation="Vertical">
-                              <Label Content="FinishAction : " Margin="4 0 5 0" FontWeight="Bold"/>
+                           <StackPanel Orientation="Vertical" Name="SHelm3">
+                              <Label Content="Helm3 : " Margin="4 0 5 0" FontWeight="Bold"/>
                               <ComboBox
                                  Margin="4 0 5 0"
-                                 Name="FinishAction"
+                                 Name="Helm3"
                                  Width="100">
                               </ComboBox>
                            </StackPanel>
-                           <StackPanel Orientation="Vertical">
-                              <Label Content="TimeZoneName : " Margin="4 0 5 0" FontWeight="Bold"/>
+                           <StackPanel Orientation="Vertical" Name="SCertManager">
+                              <Label Content="Cert-Manager : " Margin="4 0 5 0" FontWeight="Bold"/>
                               <ComboBox
                                  Margin="4 0 5 0"
-                                 Name="TimeZoneName"
+                                 Name="CertManager"
                                  Width="100">
                               </ComboBox>
                            </StackPanel>
-                           <StackPanel Orientation="Vertical">
-                              <Label Content="SkipFinalSummary : " Margin="4 0 5 0" FontWeight="Bold"/>
+                           <StackPanel Orientation="Vertical" Name="SOpenssl">
+                              <Label Content="Openssl : " Margin="4 0 5 0" FontWeight="Bold"/>
                               <ComboBox
                                  Margin="4 0 5 0"
-                                 Name="SkipFinalSummary"
+                                 Name="Openssl"
                                  Width="100">
                               </ComboBox>
                            </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
                            <StackPanel Orientation="Vertical">
-                              <Label Content="_SMSTSORGNAME : " Margin="4 0 5 0" FontWeight="Bold"/>
-                              <TextBox
+                              <Label Content="Update Packages : " Margin="4 0 5 0" FontWeight="Bold"/>
+                              <ComboBox
                                  Margin="4 0 5 0"
-                                 Name="SMSTSORGNAME"
-                                 Width="250">
-                              </TextBox>
+                                 Name="UpdatePackage"
+                                 Width="100">
+                              </ComboBox>
                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Name="S_Button_Parametres" Margin="10 20 0 0" Orientation="Vertical">
+                        <StackPanel Name="S_Button_Settings" Margin="10 20 0 0" Orientation="Vertical">
                            <Button
-                              Name="Enregister"
+                              Name="Save"
                               Width="90"
                               Height="30"
                               Margin="5 0 0 0"
-                              Content="Enregistrer"
+                              Content="Save"
                               IsEnabled="False"/>
                            <Button
-                              Name="Defaut"
+                              Name="Default"
                               Width="90"
                               Height="30"
                               Margin="5 15 0 0"
-                              Content="Défaut"/>
+                              Content="Default"/>
                            <Button
                               Name="ExitP"
                               Width="90"
                               Height="30"
                               Margin="5 15 0 0"
-                              Content="Quitter"/> 
+                              Content="Close"/> 
                         </StackPanel>
                      </StackPanel>
                   </StackPanel>      
