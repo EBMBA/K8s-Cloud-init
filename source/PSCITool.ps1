@@ -145,8 +145,18 @@ $WPF_Github.Add_Click({
 #########################################################################
 $AvailableCR = @{
   Containerd = @{
-    version = ('1.6.1')
-    command = ("apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common", "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -", 'add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"', "apt update -y", "apt install -y containerd.io", "containerd config default | tee /etc/containerd/config.toml", "systemctl restart containerd")
+    '1.6.1' =@{
+      command = (
+        "apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common", 
+        "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -", 
+        'add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"', 
+        "apt update -y",
+        "apt install -y containerd.io", 
+        "mkdir -p /etc/containerd",
+        "containerd config default | tee /etc/containerd/config.toml", 
+        "systemctl restart containerd"
+      )
+    }
   }
 }
 
@@ -158,11 +168,15 @@ $AvailableKubernetes = @{
       'echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list',
       'apt update && apt install -y kubeadm=1.23.3-00 kubelet=1.23.3-00 kubectl=1.23.3-00'      
     )
+    userConf = (
+      'mkdir -p /home/ubuntu/.kube',
+      'cp -i /etc/kubernetes/admin.conf /home/ubuntu/.kube/config',
+      'chown $(id -u ubuntu):$(id -g ubuntu) /home/ubuntu/.kube/config'
+    )
   }
   general = @{
     commandDHCP = (
-      'IP_ADDR=$(hostname  -I | cut -f1 -d" ")',
-      'kubeadm init --apiserver-advertise-address=$IP_ADDR --pod-network-cidr=192.168.0.0/16  --ignore-preflight-errors=all'
+      'IP_ADDR=$(hostname  -I | cut -f1 -d" ")'
     )
   }
 }
@@ -174,13 +188,13 @@ $AvailableCNI = @{
 }
 
 $AdditionalSettings = @{
-  $WPF_Helm3 = @{
+  Helm3 = @{
     command =('curl https://baltocdn.com/helm/signing.asc | apt-key add -', 'apt-get install apt-transport-https --yes', 'echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list', 'apt-get update -y', 'apt-get install helm -y')
   }
-  $WPF_Openssl = @{
+  Openssl = @{
     command =('apt install openssl -y')
   }
-  $WPF_UpdatePackage = @{
+  UpdatePackage = @{
     package_update = "true"
   }
 }
@@ -196,7 +210,7 @@ $VisibilitySettings = @{
     $WPF_SCertManager = 'Collapsed'
     $WPF_SOpenssl = 'Collapsed'
   }
-  Server = @{
+  Master = @{
     $WPF_SCNI = 'Visible'
     $WPF_SPodNetwork = 'Visible'
     $WPF_SNetworkMask = 'Visible'
@@ -208,7 +222,7 @@ $VisibilitySettings = @{
 
 foreach ($CR in $AvailableCR.Keys){
   $WPF_CR.Items.Add($CR) | Out-Null
-  foreach ($version in $AvailableCR.$CR.version){
+  foreach ($version in $AvailableCR.$CR.Keys){
     $WPF_CRVersion.Items.Add($version) | Out-Null
   }
 }
@@ -256,34 +270,90 @@ $WPF_Type.add_SelectionChanged({
 #########################################################################
 #                       Generating File                 								#
 #########################################################################
-$SettingCommands = @{
+$SettingCommands = [ordered]@{
   Node = @{
-    CR = $AvailableCR
-    Kubernetes = $AvailableKubernetes
+    runcmd = @(
+
+    )
+  }
+  Master = @{
 
   }
 }
 
-$file = @{
-  package_update = "true"
-  runcmd = @('modprobe br_netfilter', "sudo sed -i -e 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf && sudo sysctl -p /etc/sysctl.conf", 'sysctl --system')
+$Prerequisites = @{
+  command = ('modprobe br_netfilter', "sudo sed -i -e 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf && sudo sysctl -p /etc/sysctl.conf", 'sysctl --system')
 }
+
+$WPF_Create.IsEnabled = $True
 
 $WPF_Create.Add_Click({
+  # Ordered LIFO for Hashtable 
+  # Ordered FIFO for Array (ex runcmd)
   $type = $WPF_Type.SelectedItem.ToString()
+ 
+  # Handle choices true for any kind of deployments
+  $KubernetesVersion  =   $WPF_KVersion.SelectedItem.ToString()
+  $FQDN   =   $WPF_FQDN.text
+  $ContainerRuntime   =   $WPF_CR.SelectedItem.ToString()
+  $ContainerRuntimeVersion  =   $WPF_CRVersion.SelectedItem.ToString()
 
+  # Apply prerequisites
+  $SettingCommands.$type.runcmd += $Prerequisites.command
 
-  $FQDN = $WPF_FQDN.text
-  $ContainerRuntime = $WPF_CR.SelectedItem.ToString()
-  $ContainerRuntimeVersion = $WPF_CRVersion.SelectedItem.ToString()
-  $KubernetesVersion = $WPF_KVersion.SelectedItem.ToString()
-  $ContainerNetworkInterface = $WPF_CNI.SelectedItem.ToString()
-  $ContainerPodNetwork = $WPF_PodNetwork.text
-  $ContainerNetworkMask = $WPF_NetworkMask.text
+  # Install Container Runtime
+  $SettingCommands.$type.runcmd += $AvailableCR."$ContainerRuntime"."$ContainerRuntimeVersion".command
 
-  if ( $($WPF_Helm3.text) -eq 'True' ) {
-    $file.runcmd += $AdditionalSettings.$WPF_Helm3
+  # Install Kubernetes 
+  $SettingCommands.$type.runcmd += $AvailableKubernetes."$KubernetesVersion".command
+
+  # Handle choice by kind of deployment
+  if ($type -eq "Master") {
+    # Master Cloud-Init file
+    $ContainerNetworkInterface = $WPF_CNI.SelectedItem.ToString()
+    $ContainerPodNetwork = $WPF_PodNetwork.text
+    $ContainerNetworkMask = $WPF_NetworkMask.text
+    
+    # Configure Kubernetes
+    $AvailableKubernetes.general.commandDHCP += "kubeadm init --apiserver-advertise-address=`$IP_ADDR --pod-network-cidr=$ContainerPodNetwork/$ContainerNetworkMask  --ignore-preflight-errors=all"
+    $SettingCommands.$type.runcmd += $AvailableKubernetes.general.commandDHCP
+
+    # Deploy CNI
+    $SettingCommands.$type.runcmd += $AvailableCNI.$ContainerNetworkInterface.command
+
+    # Install Helm    
+    if ($($WPF_Helm3.SelectedItem.ToString()) -eq 'True') {
+      $SettingCommands.$type.runcmd += $AdditionalSettings.Helm3.command
+    }
+
   }
+  # Handle choices true for any kind of deployments
+
+  # User Kubernetes config 
+  $SettingCommands.$type.runcmd += $AvailableKubernetes.$KubernetesVersion.userConf
+
+  # Update package   
+  $UpdatePackage  =   $WPF_UpdatePackage.SelectedItem.ToString()
+
+  if ($UpdatePackage -eq 'True') {
+    $SettingCommands.$type.$($($AdditionalSettings.UpdatePackage.Keys)) = $($($AdditionalSettings.UpdatePackage.Values))
+  }
+
+  # Define the Hostname
+
+  # Add Users and Groups
+
+  # Debug console 
+  foreach ($key in $SettingCommands.$type.Keys){
+    foreach ($value in $SettingCommands.$type.Values){
+      Write-Host $key 
+      Write-Host $value
+    }
+ }
+  foreach ($items in $SettingCommands.$type.runcmd){
+     Write-Host $items
+  }
+   
 })
 
 $Form.ShowDialog() | Out-Null
