@@ -340,8 +340,23 @@ $WPF_Create.Add_Click({
   }
 
   # Define the Hostname
+  $SettingCommands.$type.fqdn = $FQDN
+  $SettingCommands.$type.hostname = $FQDN.Split('.')[0]
 
   # Add Users and Groups
+  if ($($WPF_CreateUser.IsChecked)) {
+    $SettingCommands.$type.users = @(
+      "default",
+      @{
+        name = $WPF_User
+        geoc = $WPF_User
+        sudo = "['ALL=(ALL) NOPASSWD:ALL']"
+        shell = "/bin/bash"
+        
+      }
+    )
+  }
+  
 
   # Debug console 
   foreach ($key in $SettingCommands.$type.Keys){
