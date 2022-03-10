@@ -195,7 +195,7 @@ $AdditionalSettings = @{
     command =('apt install openssl -y')
   }
   UpdatePackage = @{
-    package_update = "true"
+    package_update = 'true'
   }
 }
 
@@ -344,6 +344,7 @@ $WPF_Create.Add_Click({
   $SettingCommands.$type.hostname = $FQDN.Split('.')[0]
 
   # Add Users and Groups
+  <#
   if ($($WPF_CreateUser.IsChecked)) {
     $SettingCommands.$type.users = @(
       "default",
@@ -356,9 +357,14 @@ $WPF_Create.Add_Click({
       }
     )
   }
-  
+  #>
+
+  $hostname = $( $FQDN.Split('.')[0])
+  $OutpuContentPath = "./$type`_$hostname.yaml"
+  ConvertTo-Yaml -Data $SettingCommands.$type -OutFile $OutpuContentPath > "./error.txt"
 
   # Debug console 
+  <#
   foreach ($key in $SettingCommands.$type.Keys){
     foreach ($value in $SettingCommands.$type.Values){
       Write-Host $key 
@@ -367,7 +373,9 @@ $WPF_Create.Add_Click({
  }
   foreach ($items in $SettingCommands.$type.runcmd){
      Write-Host $items
-  }
+  }  
+  #>
+
    
 })
 

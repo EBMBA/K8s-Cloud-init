@@ -74,6 +74,20 @@
                                  >
                               </ComboBox>
                            </StackPanel>
+                           <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                              <iconPacks:PackIconFontAwesome Kind="UserPlusSolid"
+                                 Width="24"
+                                 Height="24"
+                                 Margin="0 0 5 0"
+                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
+                              <Label Content="New User : " FontWeight="Bold"/>
+                              <CheckBox
+                                 Margin="6 2 5 0"
+                                 Name="CreateUser"
+                                 Width="130"
+                                 >
+                              </CheckBox>
+                           </StackPanel>
                         </StackPanel>
                         <StackPanel Name="S_Button" Margin="10 0 0 0" Orientation="Vertical">
                            <Button
