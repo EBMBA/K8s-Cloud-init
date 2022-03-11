@@ -268,9 +268,11 @@ $WPF_Type.add_SelectionChanged({
 
 $WPF_CreateUser.Add_Click({
   if ($WPF_CreateUser.IsChecked -eq $True) {
-    $WPF_TabUserParameters.Visibility = "Visible"
+    $WPF_Tab_UserParameters.Visibility = "visible"
   }
-  
+  else {
+    $WPF_Tab_UserParameters.Visibility = "collapsed"
+  }
 })
 
 #########################################################################
@@ -350,20 +352,17 @@ $WPF_Create.Add_Click({
   $SettingCommands.$type.hostname = $FQDN.Split('.')[0]
 
   # Add Users and Groups
-  <#
   if ($($WPF_CreateUser.IsChecked)) {
     $SettingCommands.$type.users = @(
       "default",
       @{
-        name = $WPF_User
-        geoc = $WPF_User
+        name = $WPF_User.text
+        geoc = $WPF_User.text
         sudo = "['ALL=(ALL) NOPASSWD:ALL']"
         shell = "/bin/bash"
-        
       }
     )
   }
-  #>
 
   $hostname = $( $FQDN.Split('.')[0])
   $OutpuContentPath = "./$type`_$hostname.yaml"
