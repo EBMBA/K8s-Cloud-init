@@ -266,6 +266,12 @@ $WPF_Type.add_SelectionChanged({
   }
 })
 
+$WPF_CreateUser.Add_Click({
+  if ($WPF_CreateUser.IsChecked -eq $True) {
+    $WPF_TabUserParameters.Visibility = "Visible"
+  }
+  
+})
 
 #########################################################################
 #                       Generating File                 								#
@@ -376,7 +382,6 @@ $WPF_Create.Add_Click({
   }  
   #>
 
-   
 })
 
 $Form.ShowDialog() | Out-Null

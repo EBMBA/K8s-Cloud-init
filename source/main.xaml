@@ -361,7 +361,60 @@
                         </StackPanel>
                      </StackPanel>
                   </StackPanel>      
-               </TabItem>        
+               </TabItem>   
+               <TabItem Name="Tab_UserParameters" Visibility="Collapsed">
+                  <TabItem.HeaderTemplate>
+                     <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                           <iconPacks:PackIconFontAwesome Kind="UserPlusSolid"
+                              Width="24"
+                              Height="24"
+                              Margin="5 17 0 0 "
+                              />
+                           <Label Margin="5 5 0 0" Content="User Parameters" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+                        </StackPanel>
+                     </DataTemplate>
+                  </TabItem.HeaderTemplate>            
+                  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
+                     <Label
+                        Margin="40 0 0 50"
+                        Content="Create a new user"
+                        FontSize="25"
+                        FontWeight="Thin"/>
+                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
+                           <StackPanel Orientation="Horizontal">
+                              <iconPacks:PackIconOcticons Kind="DiffRenamed"
+                                 Width="24"
+                                 Height="24"
+                                 Margin="0 0 5 0"
+                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
+                              <Label Content="Username : " FontWeight="Bold"/>
+                              <TextBox
+                                 Margin="0 2 5 0"
+                                 Name="User"
+                                 Width="130"
+                                 >
+                              </TextBox>
+                           </StackPanel>
+                           <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                              <iconPacks:PackIconModern Kind="InterfacePassword" 
+                                 Width="24"
+                                 Height="24"
+                                 Margin="0 0 5 0"
+                                 Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
+                              <Label Content="Password :" FontWeight="Bold"/>
+                              <PasswordBox
+                                 Margin="6 2 5 0"
+                                 Name="k"
+                                 Width="130"
+                                 >
+                              </PasswordBox>
+                           </StackPanel>
+                        </StackPanel>
+                     </StackPanel>
+                  </StackPanel> 
+               </TabItem>
             </TabControl>
          </Canvas>  
       </StackPanel>
