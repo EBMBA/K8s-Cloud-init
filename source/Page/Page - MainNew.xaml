@@ -375,7 +375,7 @@
                               <Label Content="Password :" FontWeight="Bold"/>
                               <PasswordBox
                                  Margin="6 2 5 0"
-                                 Name="k"
+                                 Name="Password"
                                  Width="130"
                                  >
                               </PasswordBox>

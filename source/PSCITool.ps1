@@ -353,6 +353,13 @@ $WPF_Create.Add_Click({
 
   # Add Users and Groups
   if ($($WPF_CreateUser.IsChecked)) {
+    $stringAsStream = [System.IO.MemoryStream]::new()
+    $writer = [System.IO.StreamWriter]::new($stringAsStream)
+    $writer.write($($WPF_Password.Password))
+    $writer.Flush()
+    $stringAsStream.Position = 0
+    $password = $(Get-FileHash -InputStream $stringAsStream -Algorithm SHA512).Hash 
+
     $SettingCommands.$type.users = @(
       "default",
       @{
@@ -360,6 +367,7 @@ $WPF_Create.Add_Click({
         geoc = $WPF_User.text
         sudo = "['ALL=(ALL) NOPASSWD:ALL']"
         shell = "/bin/bash"
+        passwd = $password
       }
     )
   }
